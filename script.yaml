@@ -1,0 +1,77 @@
+prefixes:
+  ex: http://example.org/
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  schema: http://schema.org/
+
+mappings:
+  recipes:
+    sources:
+      - ['data.csv~csv']
+    s: ex:recipe/$(Srno)
+    po:
+      - [a, schema:Recipe]
+      - [ex:recipeName, $(RecipeName)]
+      - [ex:ingredients, $(Ingredients)]
+      - [schema:recipeCuisine, "$(Cuisine)"]
+      - [schema:recipeCategory, "$(Course)"]
+      - [schema:suitableForDiet, "$(Diet)"]
+      - [ex:instructions, "$(Instructions)"]
+      - [ex:takesTotalTime, "$(TotalTimeInMins)"]
+      - [ex:serves, "$(Servings)"]
+      - [schema:url, "$(URL)"]
+      
+  ingredients:
+    sources:
+      - ['data.csv~csv']
+    s: ex:ingredients/$(Srno)
+    po:
+      - [a, ex:ingredients]
+      - [rdfs:label, "$(Ingredients)"]
+      - [ex:isIngredientOf, ex:recipe/$(RecipeName)]
+      
+  totalTime:
+    sources:
+      - ['data.csv~csv']
+    s: ex:totalTime/$(Srno)
+    po:
+      - [a, ex:TotalTime]
+      - [ex:totalTimeInMinutes, "$(TotalTimeInMins)"]
+      - [ex:forRecipe, ex:recipe/$(RecipeName)]
+
+  servings:
+    sources:
+      - ['data.csv~csv']
+    s: ex:servings/$(Srno)
+    po:
+      - [a, ex:Servings]
+      - [ex:servings, "$(Servings)"]
+      - [ex:forRecipe, ex:recipe/$(RecipeName)]
+      - [ex:preparationInstructions, "$(Instructions)"]
+
+  diet:
+    sources:
+      - ['data.csv~csv']
+    s: ex:diet/$(Srno)
+    po:
+      - [a, ex:Diet]
+      - [ex:diet, "$(Diet)"]
+      - [ex:forRecipe, ex:recipe/$(RecipeName)]
+
+  cuisine:
+    sources:
+      - ['data.csv~csv']
+    s: ex:cuisine/$(Srno)
+    po:
+      - [a, ex:Cuisine]
+      - [ex:cuisine, "$(Cuisine)"]
+      - [ex:forRecipe, ex:recipe/$(RecipeName)]
+
+  course:
+    sources:
+      - ['data.csv~csv']
+    s: ex:course/$(Srno)
+    po:
+      - [a, ex:Course]
+      - [ex:course, "$(Course)"]
+      - [ex:forRecipe, ex:recipe/$(RecipeName)]
